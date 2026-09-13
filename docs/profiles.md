@@ -42,7 +42,7 @@ when `camofox_open` is called **without** an explicit `profile`:
 }
 ```
 
-Resolution order (`resolveProfileForUrl` in `src/index.ts`):
+Resolution order (`resolveProfileForUrl` in `lib/camofox-client.js`, imported & re-exported by `src/index.ts` — the shared lib is the single source of truth so the ask-* skills resolve profiles identically):
 
 1. Parse the URL's hostname.
 2. Domain-suffix match against `siteToProfile` keys — the hostname must equal a

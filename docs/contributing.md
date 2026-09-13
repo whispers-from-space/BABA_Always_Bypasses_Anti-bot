@@ -33,6 +33,10 @@ npx tsc --noEmit
 - `deploy/` — server launcher, wake script, and the `camofox-vnc-fit/` plugin
   source (see [server-internals.md](server-internals.md)).
 - `skills/` — bundled skills shipped with the extension and discovered via
-  the `resources_discover` event.
+  the `resources_discover` event: `camofox-browser` (tool usage guidance,
+  auto-invoked) and `ask-chatgpt` / `ask-claude` / `ask-gemini` (relay a
+  question to that assistant's web UI via `/skill:ask-*`; they share the same
+  `lib/camofox-client.js` profile resolution as the tools, so a login done
+  via `camofox_open` is reused automatically).
 - `docs/` — this documentation set; keep [INDEX.md](INDEX.md) in sync when
   adding/removing a topic file.

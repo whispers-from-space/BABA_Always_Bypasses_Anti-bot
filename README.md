@@ -43,6 +43,13 @@ tail -f /tmp/camofox-browser.log                          # server log
 
 (The LLM calls these automatically — no slash command needed.)
 
+## Bundled skills
+
+Discovered via the `resources_discover` event — invoked as `/skill:<name>`:
+
+- **`camofox-browser`** — usage guidance for the `camofox_*` tools (auto-invoked when you use the tools; no slash command needed).
+- **`ask-chatgpt`** / **`ask-claude`** / **`ask-gemini`** — relay a question to that assistant's web UI via a shared logged-in camofox profile and return its exact response. Use only when the user explicitly wants that assistant's answer (`/skill:ask-chatgpt`, etc.).
+
 ## Where to look for more
 
 | If you want to… | Open |
