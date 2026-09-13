@@ -22,6 +22,14 @@ cache) detached, with stdout/stderr to `/tmp/camofox-browser.log`. VNC is
 the browser live (x11vnc on `:5900`, noVNC web UI on `:6080`, both bound to
 127.0.0.1 only).
 
+### You usually don't need to run this by hand
+
+The extension auto-starts the launcher on the first `camofox_*` call if the
+local server isn't reachable (see [setup.md](setup.md)). Run it manually only
+to pre-warm the server, override env vars, or watch the boot log live. The
+server is a shared daemon (idle-shutdown after 1h) and is **not** killed when
+Pi exits.
+
 - **stop**: `pkill -f "camofox-browser[.]js"`; **restart** = stop + run the script again
 - **status**: `curl http://localhost:9377/health` (server) and
   `curl http://localhost:9377/vnc/status` (VNC state: enabled/running/display)

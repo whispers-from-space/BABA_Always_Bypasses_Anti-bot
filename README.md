@@ -11,7 +11,9 @@ file for what you're doing.** Don't read everything; pick by task.
 ## Quick start
 
 ```bash
-# 1. Start the shared camofox-browser server (VNC on by default)
+# 1. (optional) Pre-warm the shared camofox-browser server (VNC on).
+#    Skip this -- the extension auto-starts it on first camofox_* call if
+#    it's a local server and not already up.
 ./deploy/start-camofox-browser.sh
 #    API:  http://localhost:9377   ·   live view: http://localhost:6080/vnc.html
 
