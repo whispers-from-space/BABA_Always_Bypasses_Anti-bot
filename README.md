@@ -1,10 +1,10 @@
 # GhostFox
 
 A [Pi](https://pi.dev) extension that turns the [Camoufox](https://github.com/jo-inc/camofox-browser)
-anti-fingerprint browser into **a multi-profile, VNC-login-capable, full
-browser-automation layer for agents** — with a shared-server posture so your
-logins persist across Pi sessions, and bundled skills that relay a question
-to ChatGPT / Claude / Gemini's web UIs and return the exact response.
+anti-fingerprint browser into **a full browser-automation layer for agents** —
+where a human can log in by hand once (and the agent reuses that session
+forever), watch the agent browse live to debug it, and relay questions to
+ChatGPT / Claude / Gemini's web UIs through the same logged-in profiles.
 
 ```bash
 pi install npm:ghostfox
@@ -23,12 +23,18 @@ done once should stay done.**
   auto-routes `camofox_open("https://linkedin.com")` to your `linkedin`
   profile with no extra config. Log in once → it stays logged in.
 
-- **VNC manual-login path.** Some sites need a human to click through OAuth,
-  2FA, or a Cloudflare checkpoint exactly once. GhostFox runs a live noVNC
-  web view (`http://localhost:6080/vnc.html`) so you can do that login by
-  hand, and the resulting session is then reusable from the agent tools with
-  no extra steps. No other "headless browser as a tool" story covers this
-  case — they can't, because they have no display.
+- **Log in by hand once, the agent reuses it forever.** Some sites need a
+  human to click through OAuth, 2FA, or a Cloudflare checkpoint exactly once.
+  GhostFox runs a live web view of the browser (`http://localhost:6080/vnc.html`)
+  so you do that login yourself, and the resulting session is then reused by
+  the agent tools with no extra steps. "Headless browser as a tool"
+  extensions can't cover this case — they have no display, so a site that
+  needs a human can never be logged in.
+
+- **Watch the agent browse live, and debug it.** The same web view shows what
+  the agent is doing in real time as it clicks, types, and navigates — so when
+  a workflow goes wrong you can see exactly where, instead of guessing from a
+  stack trace. Monitoring and debugging are first-class, not an afterthought.
 
 - **Full agentic browser surface, not just fetch.** Nine native tools —
   `camofox_open` · `camofox_list_tabs` · `camofox_close_tab` · `camofox_snapshot`

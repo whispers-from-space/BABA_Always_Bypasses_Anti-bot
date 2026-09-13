@@ -1,7 +1,7 @@
 {
   "name": "ghostfox",
   "version": "0.1.0",
-  "description": "Pi extension: a multi-profile, VNC-login-capable, full browser-automation + multi-assistant relay layer over the Camoufox anti-fingerprint browser. Log in once — it stays logged in.",
+  "description": "Pi extension over the Camoufox anti-fingerprint browser — log in by hand once and the agent reuses that session, watch it browse live to debug it, and relay questions to ChatGPT/Claude/Gemini via their real web UIs.",
   "keywords": [
     "pi-package",
     "pi-extension",
