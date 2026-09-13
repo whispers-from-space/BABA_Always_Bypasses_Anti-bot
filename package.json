@@ -1,0 +1,53 @@
+{
+  "name": "ghostfox",
+  "version": "0.1.0",
+  "description": "Pi extension: wraps camofox-browser's REST API as Pi tools, with named profiles and a manual-login workflow.",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "camofox",
+    "browser",
+    "automation",
+    "playwright"
+  ],
+  "license": "MIT",
+  "author": "whispers-from-space",
+  "homepage": "https://github.com/whispers-from-space/GhostFox",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whispers-from-space/GhostFox.git"
+  },
+  "files": [
+    "src",
+    "lib",
+    "skills",
+    "deploy",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@askjo/camofox-browser": "^1.13.0",
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "peerDependenciesMeta": {
+    "@askjo/camofox-browser": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^0.83.0",
+    "@types/node": "^26.1.2",
+    "typebox": "^1.3.9",
+    "typescript": "^5.7.0"
+  }
+}

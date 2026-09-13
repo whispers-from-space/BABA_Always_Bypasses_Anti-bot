@@ -1,0 +1,6 @@
+{
+  "enableEnvVar": "VNC_FIT",
+  "name": "vnc-fit",
+  "version": "1.0.0",
+  "description": "Pin Camoufox's fingerprint screen + window size to VNC_RESOLUTION so the browser window always fits the virtual display (noVNC shows the full browser, no more zoomed top-left corner / off-screen window)."
+}

@@ -1,0 +1,23 @@
+# --- npm project (pi extension) ---
+node_modules/
+package-lock.json
+*.log
+.DS_Store
+
+# --- pi runtime session state (never commit) ---
+.pi/
+
+# --- camofox runtime artifacts ---
+# Live session cookies/localStorage — MUST NEVER be in the audit-trail repo.
+# FR11: Navigator commits only Workflow *data files*, never `user_data_dir`.
+# All harness state (browser profiles, cookies, traces, pi-profiles.json,
+# stable fingerprint) lives under <repo>/.camofox — see deploy/start-camofox-browser.sh.
+.camofox/
+**/profile/
+**/.fingerprint_config.json
+*.pyc
+__pycache__/
+.pytest_cache/
+custom_script/
+**/.state/
+tmp/

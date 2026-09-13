@@ -1,0 +1,16 @@
+# npm publish ignores — keeps runtime/personal state out of the tarball.
+# (The `files` whitelist in package.json is the primary gate; this is a
+# backstop for anything that would otherwise sneak in under a whitelisted dir.)
+
+# --- runtime / personal state (never publish) ---
+.pi/
+.camofox/
+**/.state/
+.state/
+tmp/
+*.log
+
+# --- dev-only ---
+node_modules/
+tsconfig.json
+.github/
