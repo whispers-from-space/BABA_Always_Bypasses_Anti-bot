@@ -3,8 +3,9 @@
 A [Pi](https://pi.dev) extension that turns the [Camoufox](https://github.com/jo-inc/camofox-browser)
 anti-fingerprint browser into **a full browser-automation layer for agents** —
 where a human can log in by hand once (and the agent reuses that session
-forever), watch the agent browse live to debug it, and relay questions to
-ChatGPT / Claude / Gemini's web UIs through the same logged-in profiles.
+forever), watch the agent browse live to debug it, and capture fixed-step
+workflows as self-healing skills so repeat runs don't burn tokens re-driving
+the browser.
 
 ```bash
 pi install npm:ghostfox
@@ -36,6 +37,16 @@ done once should stay done.**
   a workflow goes wrong you can see exactly where, instead of guessing from a
   stack trace. Monitoring and debugging are first-class, not an afterthought.
 
+- **Self-healing workflow skills, not token-burning replays.** A fixed-step
+  web workflow (scrape a table, post a reply, run a report) should be
+  captured once as a **skill** — a `SKILL.md` plus a wrapped Node script that
+  drives the camofox REST API — so the next run costs one bash call, not a
+  fresh LLM exploration of the page. When the site changes and the script
+  breaks, the agent re-snapshots just the broken step, re-derives the
+  selector, and patches its own script — instead of re-doing the whole
+  workflow from scratch. The bundled `ask-chatgpt`/`ask-claude`/`ask-gemini`
+  skills are worked examples of exactly this pattern (see below).
+
 - **Full agentic browser surface, not just fetch.** Nine native tools —
   `camofox_open` · `camofox_list_tabs` · `camofox_close_tab` · `camofox_snapshot`
   · `camofox_click` · `camofox_type` · `camofox_navigate` · `camofox_screenshot`
@@ -45,12 +56,12 @@ done once should stay done.**
   real workflows (fill a form, scrape behind a login, drive a SPA) possible,
   not just "give me the HTML of this URL."
 
-- **Bundled multi-assistant relay skills.** `ask-chatgpt`, `ask-claude`, and
-  `ask-gemini` relay a question to that assistant's **web UI** — using the
-  same logged-in camofox profile your interactive sessions use — and return
-  its exact response. One Pi agent can query three frontier models through
-  their real web frontends (with your paid subscriptions) without leaving
-  the session. Ship a question to all three and compare.
+- **Bundled example skills.** `ask-chatgpt`, `ask-claude`, and `ask-gemini`
+  ship as worked examples of the fixed-workflow-skill pattern above — each is
+  a `SKILL.md` + a wrapped Node script that drives the camofox REST API via
+  the same logged-in profile, relaying a question to that assistant's web UI
+  and returning its exact response. Use them as templates for your own
+  captured workflows (`/skill:ask-chatgpt`, etc.).
 
 - **Lazy auto-start, zero-config install.** `pi install npm:ghostfox` and
   just ask. On the first `camofox_*` call, if the local server isn't up, the

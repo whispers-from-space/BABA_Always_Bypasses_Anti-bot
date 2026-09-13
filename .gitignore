@@ -21,3 +21,7 @@ __pycache__/
 custom_script/
 **/.state/
 tmp/
+
+# editor
+*.swp
+*~

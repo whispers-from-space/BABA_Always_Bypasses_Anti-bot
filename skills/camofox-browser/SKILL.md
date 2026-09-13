@@ -53,19 +53,60 @@ Do not assume features from unrelated forks or blog posts.
   VNC binds to 127.0.0.1 only; x11vnc on 5900, noVNC web UI on 6080.
   Add a password via VNC_PASSWORD if the machine is shared.
 
-## Writing a reusable workflow script
+## Fixed-workflow skills: capture, then self-heal
 
-- Standalone script (Node.js) calling this REST API directly — not raw
-  Playwright/Camoufox. The server already handles session lifecycle,
-  fingerprint config, and profile persistence.
-- Use "selector", not "ref" — refs from the exploration session are already
-  stale by the time the script runs.
+A fixed-step web workflow (log in, click through a few pages, scrape a table,
+post a reply) should NOT be re-driven with LLM tokens every time. Capture it
+once as a **skill**: a `SKILL.md` (the contract — when to use it, what the
+next user message means, how to call the script) plus a wrapped Node script
+that drives this REST API directly. Repeat runs then cost one bash call, not
+a fresh exploration.
+
+### Pattern (copy a shipped example)
+
+The bundled `ask-chatgpt`, `ask-claude`, and `ask-gemini` skills are exactly
+this pattern — look at any of them as a template:
+
+- `skills/ask-*/SKILL.md` — the contract (one-line description, when to
+  invoke, what to relay to the user).
+- `skills/ask-*/ask-*.js` — a standalone Node script that calls the camofox
+  REST API via `lib/camofox-client.js` (`createClient(userId)`) and prints
+  the result to stdout. The agent just runs it with bash.
+
+### How to write one
+
+- Explore the site interactively first (`camofox_open` → `camofox_snapshot`
+  → `camofox_click`/`camofox_type`) to find the steps.
+- Capture it as a script using **CSS selectors**, never refs — refs are valid
+  only until the next navigation and are stale by the time a script runs.
+  Selectors are stable across page loads and script runs.
 - Reuse the same profile name the exploration used, so the script inherits
-  the already-persisted login automatically.
+  the already-persisted login automatically — no auth in the script.
 - Add a randomized delay between actions (e.g. 300-900ms) — the server adds
-  none; this is a client-side concern entirely.
+  none; this is entirely a client-side concern.
+- Put the script + `SKILL.md` under `skills/<your-skill>/` and it is
+  discoverable as `/skill:<your-skill>` (same `resources_discover` mechanism
+  the ask-* skills use).
 - `camofox_tab_stats` (GET /tabs/:id/stats) can help recall which URLs were
-  visited during a long exploration session if needed.
+  visited during a long exploration session.
+
+### Self-heal: fix the broken step, don't redo the workflow
+
+When a site changes and the script breaks (a selector no longer matches, a
+page flow changed), do NOT re-drive the whole workflow from scratch with
+tokens. Fix just the broken step:
+
+1. Run the script; note which step threw (have the script name the step in
+   its error, e.g. `step "submit" : click "button.submit" failed`).
+2. `camofox_open` the last good URL under the same profile, then
+   `camofox_snapshot` to see the current DOM.
+3. Find the new selector for that one step (or the new intermediate page),
+   patch the script, re-run. The other steps' selectors are almost certainly
+   still valid.
+4. The fix persists — the script is the source of truth for next time.
+
+This is the point of capturing workflows as skills: the agent maintains and
+patches its own scripts instead of re-paying the exploration cost every run.
 
 Full schema is always available live at `<server>/openapi.json` (default
 `http://localhost:9377`) for any endpoint not covered here (downloads, images,
