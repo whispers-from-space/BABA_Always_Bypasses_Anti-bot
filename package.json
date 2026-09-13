@@ -1,7 +1,7 @@
 {
   "name": "ghostfox",
   "version": "0.1.0",
-  "description": "Pi extension over the Camoufox anti-fingerprint browser — log in by hand once and the agent reuses that session, watch it browse live to debug it, and capture fixed-step workflows as self-healing skills so repeat runs don't burn tokens.",
+  "description": "Pi extension over the Camoufox anti-fingerprint browser — the agent writes fixed-step web workflows down as self-healing skills it maintains and fixes itself, so each repeat costs one bash call instead of burning LLM tokens. Log in by hand once; watch it browse live to debug it.",
   "keywords": [
     "pi-package",
     "pi-extension",

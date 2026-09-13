@@ -1,15 +1,40 @@
 # GhostFox
 
-A [Pi](https://pi.dev) extension that turns the [Camoufox](https://github.com/jo-inc/camofox-browser)
-anti-fingerprint browser into **a full browser-automation layer for agents** —
-where a human can log in by hand once (and the agent reuses that session
-forever), watch the agent browse live to debug it, and capture fixed-step
-workflows as self-healing skills so repeat runs don't burn tokens re-driving
-the browser.
+A [Pi](https://pi.dev) extension over the [Camoufox](https://github.com/jo-inc/camofox-browser)
+anti-fingerprint browser.
+
+**The headline: the agent writes fixed-step web workflows down as
+self-healing skills it maintains and fixes itself — so each repeat costs one
+bash call, not a fresh round of LLM tokens re-driving the browser.** Log in
+by hand once and the agent reuses that session forever; watch it browse live
+to debug it.
 
 ```bash
 pi install npm:ghostfox
 ```
+
+## Self-healing workflow skills
+
+A fixed-step web workflow (log in, click through a few pages, scrape a table,
+post a reply) should NOT be re-driven with LLM tokens every time. The agent
+writes it down as a **skill** — a `SKILL.md` plus a code script that drives
+the browser — and then **maintains and fixes it itself**, so repeat runs cost
+one bash call instead of a fresh round of exploration.
+
+- **First run:** the agent does the workflow interactively — `camofox_open`,
+  snapshot the page, click, type, navigate — and captures those steps as a
+  runnable Node script using stable CSS selectors (not ephemeral refs). A
+  `SKILL.md` next to it makes the workflow invocable as `/skill:<name>`.
+- **Every run after:** one bash call runs the script. No re-exploration, no
+  re-snapshotting, no tokens spent re-deriving what the agent already knows.
+  A 15-step workflow costs full LLM attention once, then one bash call forever.
+- **When the site changes and the script breaks:** the agent doesn't redo the
+  whole workflow. It re-snapshots just the broken step, finds the new
+  selector, and patches its own script — the fix persists for next time.
+
+The net effect: **repeat web operations stop burning tokens.** The bundled
+`ask-chatgpt` / `ask-claude` / `ask-gemini` skills are three shipped examples
+of exactly this pattern.
 
 ## Why GhostFox
 
@@ -36,16 +61,6 @@ done once should stay done.**
   the agent is doing in real time as it clicks, types, and navigates — so when
   a workflow goes wrong you can see exactly where, instead of guessing from a
   stack trace. Monitoring and debugging are first-class, not an afterthought.
-
-- **Self-healing workflow skills, not token-burning replays.** A fixed-step
-  web workflow (scrape a table, post a reply, run a report) should be
-  captured once as a **skill** — a `SKILL.md` plus a wrapped Node script that
-  drives the camofox REST API — so the next run costs one bash call, not a
-  fresh LLM exploration of the page. When the site changes and the script
-  breaks, the agent re-snapshots just the broken step, re-derives the
-  selector, and patches its own script — instead of re-doing the whole
-  workflow from scratch. The bundled `ask-chatgpt`/`ask-claude`/`ask-gemini`
-  skills are worked examples of exactly this pattern (see below).
 
 - **Full agentic browser surface, not just fetch.** Nine native tools —
   `camofox_open` · `camofox_list_tabs` · `camofox_close_tab` · `camofox_snapshot`
