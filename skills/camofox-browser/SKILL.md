@@ -1,6 +1,6 @@
 ---
 name: camofox-browser
-description: Use when browsing or automating a website via the camofox_* tools, or when capturing a web workflow as a self-healing skill — either because the user asked to define a fixed web-automation workflow, or because the same series of actions is repeating in the conversation — and to maintain/fix those skills when they break.
+description: Use when browsing or automating a website, or when capturing a web workflow as a self-healing skill — either because the user asked to define a fixed web-automation workflow, or because the same series of actions is repeating in the conversation — and to maintain/fix those skills when they break.
 ---
 
 # camofox-browser
