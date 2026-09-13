@@ -1,5 +1,5 @@
 {
-  "name": "ghostfox",
+  "name": "baba_always_bypasses_anti-bot",
   "version": "0.1.0",
   "description": "Pi extension over the Camoufox anti-fingerprint browser — the agent writes fixed-step web workflows down as self-healing skills it maintains and fixes itself, so each repeat costs one bash call instead of burning LLM tokens. Log in by hand once; watch it browse live to debug it.",
   "keywords": [
@@ -12,10 +12,10 @@
   ],
   "license": "MIT",
   "author": "whispers-from-space",
-  "homepage": "https://github.com/whispers-from-space/GhostFox",
+  "homepage": "https://github.com/whispers-from-space/BABA_Always_Bypasses_Anti-bot",
   "repository": {
     "type": "git",
-    "url": "https://github.com/whispers-from-space/GhostFox.git"
+    "url": "https://github.com/whispers-from-space/BABA_Always_Bypasses_Anti-bot.git"
   },
   "files": [
     "src",

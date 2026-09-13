@@ -1,6 +1,6 @@
 ---
 title: Setup
-summary: Open this when you are installing, upgrading, or uninstalling the GhostFox extension, or when you need to set CAMOFOX_URL / CAMOFOX_API_KEY so the extension can reach the camofox-browser server.
+summary: Open this when you are installing, upgrading, or uninstalling the BABA_Always_Bypasses_Anti-bot extension, or when you need to set CAMOFOX_URL / CAMOFOX_API_KEY so the extension can reach the camofox-browser server.
 ---
 
 # Setup
@@ -36,19 +36,19 @@ you run one (Docker/Fly/Railway).
 **From npm** (once published):
 
 ```bash
-pi install npm:ghostfox
+pi install npm:baba_always_bypasses_anti-bot
 ```
 
 **From git** (no publish required):
 
 ```bash
-pi install git:github.com/whispers-from-space/GhostFox
+pi install git:github.com/whispers-from-space/BABA_Always_Bypasses_Anti-bot
 ```
 
 **Project-local instead of global:**
 
 ```bash
-pi install -l npm:ghostfox
+pi install -l npm:baba_always_bypasses_anti-bot
 ```
 
 Then `/reload` inside Pi (or start a new session).
@@ -56,8 +56,8 @@ Then `/reload` inside Pi (or start a new session).
 ### Manual / local dev install
 
 ```bash
-git clone https://github.com/whispers-from-space/GhostFox
-cd GhostFox
+git clone https://github.com/whispers-from-space/BABA_Always_Bypasses_Anti-bot
+cd BABA_Always_Bypasses_Anti-bot
 npm install
 pi -e ./src/index.ts   # try it without installing
 ```
@@ -71,7 +71,7 @@ pi install -l .   # registers this repo in .pi/settings.json
 
 For a global install (all projects), either copy the repo to
 `~/.pi/agent/extensions/` or `pi install <path-to-this-repo>` once it's
-published to npm (`pi install npm:ghostfox`).
+published to npm (`pi install npm:baba_always_bypasses_anti-bot`).
 
 Then `/reload` in Pi (or start a new session).
 

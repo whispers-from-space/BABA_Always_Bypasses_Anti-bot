@@ -1,4 +1,4 @@
-# GhostFox — Agent Guide
+# BABA_Always_Bypasses_Anti-bot — Agent Guide
 
 > Context file for AI coding agents (pi / Claude Code / Codex / etc.) working in
 > this repo. Read this before editing. Pi auto-loads it at startup; other agents
@@ -6,7 +6,7 @@
 
 ## What this is
 
-GhostFox is a [Pi](https://pi.dev) extension that wraps a running
+BABA_Always_Bypasses_Anti-bot is a [Pi](https://pi.dev) extension that wraps a running
 [camofox-browser](https://github.com/jo-inc/camofox-browser) server's REST API
 as Pi tools, with **named profiles** (login/session persistence) and a **VNC
 manual-login** path for sites that need a human to click through auth once.
