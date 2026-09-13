@@ -1,6 +1,6 @@
 ---
 name: camofox-browser
-description: Use when browsing or automating a website via camofox_open, camofox_click, camofox_type, camofox_navigate, or camofox_snapshot, or when asked to turn an interactive exploration into a reusable workflow script.
+description: Use when browsing or automating a website via the camofox_* tools, or when capturing a web workflow as a self-healing skill — either because the user asked to define a fixed web-automation workflow, or because the same series of actions is repeating in the conversation — and to maintain/fix those skills when they break.
 ---
 
 # camofox-browser
@@ -61,6 +61,29 @@ once as a **skill**: a `SKILL.md` (the contract — when to use it, what the
 next user message means, how to call the script) plus a wrapped Node script
 that drives this REST API directly. Repeat runs then cost one bash call, not
 a fresh exploration.
+
+### When to capture (two triggers)
+
+Capture a new workflow skill in either of these situations — not in any
+other (don't pre-emptively skill-ify one-off tasks):
+
+1. **The user defines the workflow.** The user explicitly asks to
+   "save/capture/turn this into a skill", names a repeatable web task they
+   want on tap ("post my daily standup to the portal", "pull yesterday's
+   orders from the admin"), or hands you a fixed step-by-step procedure to
+   automate. Build the skill from the steps they give or from one interactive
+   run-through you do together first.
+2. **A series of actions is repeating in the conversation.** You notice the
+   *same* sequence of `camofox_*` calls (same profile, same URLs, same
+   clicks/types) has already occurred in this session's context or message
+   history — i.e. the user is running it a second time by hand, or you've
+   just re-driven it. At the point you spot the repeat (before the second
+   re-run finishes), pause and propose capturing it as a skill, then build
+   it from the steps you can see in history. One captured run pays back on
+   the very next invocation.
+
+In both cases, tell the user what you captured and where, so they can edit or
+invoke it (`/skill:<name>`) themselves next time.
 
 ### Pattern (copy a shipped example)
 
