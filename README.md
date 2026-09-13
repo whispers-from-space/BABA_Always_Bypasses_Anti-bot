@@ -1,18 +1,76 @@
 # GhostFox
 
-A [Pi](https://pi.dev) extension that wraps [camofox-browser](https://github.com/jo-inc/camofox-browser)'s
-REST API as Pi tools, with profile-based session persistence and a VNC
-manual-login path for sites that need a human to click through auth once.
+A [Pi](https://pi.dev) extension that turns the [Camoufox](https://github.com/jo-inc/camofox-browser)
+anti-fingerprint browser into **a multi-profile, VNC-login-capable, full
+browser-automation layer for agents** — with a shared-server posture so your
+logins persist across Pi sessions, and bundled skills that relay a question
+to ChatGPT / Claude / Gemini's web UIs and return the exact response.
 
-This README is a quick command manual. **The real documentation lives in
-[`docs/`](docs/) — open [`docs/INDEX.md`](docs/INDEX.md) to find the right
-file for what you're doing.** Don't read everything; pick by task.
+```bash
+pi install npm:ghostfox
+```
+
+## Why GhostFox
+
+Most "stealth browser for agents" extensions give you a fetch-and-search
+primitive over an anti-detect browser and stop there. GhostFox is built on
+the opposite assumption: **the agent should drive the page**, and **a login
+done once should stay done.**
+
+- **Named profiles, real session persistence.** Each profile is its own
+  `BrowserContext` with its own cookies/localStorage, persisted to disk and
+  reused across Pi sessions. A URL→profile map (`~/.pi/agent/camoufox-harness.json`)
+  auto-routes `camofox_open("https://linkedin.com")` to your `linkedin`
+  profile with no extra config. Log in once → it stays logged in.
+
+- **VNC manual-login path.** Some sites need a human to click through OAuth,
+  2FA, or a Cloudflare checkpoint exactly once. GhostFox runs a live noVNC
+  web view (`http://localhost:6080/vnc.html`) so you can do that login by
+  hand, and the resulting session is then reusable from the agent tools with
+  no extra steps. No other "headless browser as a tool" story covers this
+  case — they can't, because they have no display.
+
+- **Full agentic browser surface, not just fetch.** Nine native tools —
+  `camofox_open` · `camofox_list_tabs` · `camofox_close_tab` · `camofox_snapshot`
+  · `camofox_click` · `camofox_type` · `camofox_navigate` · `camofox_screenshot`
+  · `camofox_tab_stats` — so the LLM snapshots the page, clicks elements by
+  ref or CSS selector, types into fields, and navigates. Accessibility
+  snapshots give stable element refs for clicking/typing. This is what makes
+  real workflows (fill a form, scrape behind a login, drive a SPA) possible,
+  not just "give me the HTML of this URL."
+
+- **Bundled multi-assistant relay skills.** `ask-chatgpt`, `ask-claude`, and
+  `ask-gemini` relay a question to that assistant's **web UI** — using the
+  same logged-in camofox profile your interactive sessions use — and return
+  its exact response. One Pi agent can query three frontier models through
+  their real web frontends (with your paid subscriptions) without leaving
+  the session. Ship a question to all three and compare.
+
+- **Lazy auto-start, zero-config install.** `pi install npm:ghostfox` and
+  just ask. On the first `camofox_*` call, if the local server isn't up, the
+  extension spawns the launcher and polls `/health` until ready — no manual
+  daemon setup. (Only fires for a local server; a remote `CAMOFOX_URL` is
+  left alone.)
+
+- **Shared-server posture, not per-session throwaway.** One long-lived
+  Camoufox daemon with a **stable device fingerprint** serves many Pi
+  sessions. Login state, cookies, and the fingerprint survive Pi restarts;
+  the server idle-shuts-down after 1h of inactivity and is **not** killed
+  when Pi exits — so the next session picks up exactly where the last one
+  left off. This is the difference between "a browser" and "your browser."
+
+- **Anti-fingerprint by construction.** Built on Camoufox — a Firefox fork
+  patched at the C++ level for anti-fingerprint resistance — for sites that
+  block conventional headless browsers (Cloudflare, DataDome, PerimeterX,
+  Turnstile, Google's bot wall, LinkedIn, etc.). The stable fingerprint is
+  pinned once and reused, so you don't present a different device on every
+  launch.
 
 ## Quick start
 
 ```bash
 # 1. (optional) Pre-warm the shared camofox-browser server (VNC on).
-#    Skip this -- the extension auto-starts it on first camofox_* call if
+#    Skip this — the extension auto-starts it on first camofox_* call if
 #    it's a local server and not already up.
 ./deploy/start-camofox-browser.sh
 #    API:  http://localhost:9377   ·   live view: http://localhost:6080/vnc.html
